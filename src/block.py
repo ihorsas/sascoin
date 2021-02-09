@@ -1,6 +1,5 @@
 import hashlib
 import json
-import time
 
 class Block(object):
     def __init__(self, transactions, time, index):
@@ -29,15 +28,22 @@ class Block(object):
         while self.hash[0:difficulty] != hashPuzzle:
             self.nonce += 1
             self.hash = self.calculateHash()
-            print(f'Nonce:{self.nonce}')
-            print(f'Hash Attempt:{self.hash}')
-            print(f'Acceptable hash:{hashPuzzle}...\n')
+            # print(f'Nonce:{self.nonce}')
+            # print(f'Hash Attempt:{self.hash}')
+            # print(f'Acceptable hash:{hashPuzzle}...\n')
             # time.sleep(1)
 
         print(len(hashPuzzle))
         print(self.hash[0:difficulty])
         print("Block Mined!")
         return True
+
+    def areTransactionsValid(self):
+        print('Verifying transactions')
+        for i in range(0, len(self.transactions)):
+            if not self.transactions[i].isValidTransaction():
+                return False
+            return True
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__,

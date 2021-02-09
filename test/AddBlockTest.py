@@ -1,5 +1,5 @@
-from src.Block import Block
-from src.Blockchain import Blockchain
+from src.block import Block
+from src.blockchain import Blockchain
 from time import time
 import pprint
 

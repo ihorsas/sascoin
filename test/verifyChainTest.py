@@ -8,11 +8,12 @@ blockchain = Blockchain()
 transaction = Transaction('Mykhailo Tsalan', 'Ihor Sas', 100)
 
 blockchain.pendingTransactions.append(transaction)
+blockchain.pendingTransactions.append(transaction)
+
+blockchain.minePendingTransactions('Bohdan Klymenko')
+blockchain.pendingTransactions.append(transaction)
+blockchain.pendingTransactions.append(transaction)
 
 blockchain.minePendingTransactions('Bohdan Klymenko')
 
-print('Chain after mining: ')
-pp.pprint(blockchain.chainJSONencode())
-print('Length of chain: ', len(blockchain.chain))
-
-print('First pending transaction after mining:', blockchain.pendingTransactions[0])
+assert blockchain.isValidChain() is True

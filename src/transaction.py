@@ -1,5 +1,6 @@
 import hashlib
 import json
+from flask import flash
 
 from Crypto.Signature import *
 from time import time
@@ -13,19 +14,17 @@ class Transaction(object):
         self.time = time()
         self.hash = self.calculateHash()
 
-    # TODO: need to be investigated and rewrite
+    # TODO: need to be rewritten
     def signTransaction(self, key, senderKey):
         if self.hash != self.calculateHash():
-            print("Transaction tampered error")
+            flash("Transaction tampered error")
             return False
 
         if str(key.publickey().export_key()) != str(senderKey.publickey().export_key()):
-            print("Transaction attempt to be signed from another wallet")
+            flash("Transaction attempt to be signed from another wallet")
             return False
 
-        pkcs1_15.new(key)
-
-        self.signature = "made"
+        self.signature = pkcs1_15.new(key)
         print("made signature!")
         return True
 
@@ -36,12 +35,16 @@ class Transaction(object):
 
     def isValidTransaction(self):
         if self.hash != self.calculateHash():
+            flash("Transaction hash has been changed")
             return False
         if self.sender == self.receiver:
+            flash("Sender value is the same as receiver")
             return False
-        if not self.signature or len(self.signature) == 0:
-            print("Error: No Signature!")
-            return False
+
+        # Skip for nit
+        # if not self.signature or len(self.signature) == 0:
+        #     print("Error: No Signature!")
+        #     return False
         return True
 
     # needs work!

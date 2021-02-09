@@ -1,4 +1,4 @@
-from src.Blockchain import Blockchain
+from src.blockchain import Blockchain
 import pprint
 
 
@@ -12,4 +12,4 @@ print(key + '\n')
 
 isTransactionAdded = blockchain.addTransaction('Mykhailo Tsalan', 'Ihor Sas', 100, key, key)
 
-print('Transaction with key added: ', isTransactionAdded)
+assert isTransactionAdded is True
