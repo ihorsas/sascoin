@@ -94,6 +94,8 @@ const initErrorHandler = (ws: WebSocket) => {
     ws.on('error', () => closeConnection(ws));
 };
 
+
+// here should be a bit rewritten logic, hope i'll find how
 const handleBlockchainResponse = (receivedBlocks: Block[]) => {
     if (receivedBlocks.length === 0) {
         console.log('received block chain size of 0');
