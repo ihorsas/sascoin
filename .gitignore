@@ -1,3 +1,5 @@
+!.gitignore
+private_key
 node_modules
 .nyc_output
 coverage
