@@ -1,0 +1,10 @@
+!.gitignore
+private_key
+node_modules
+.nyc_output
+coverage
+.idea
+*.log
+package-lock.json
+.vscode
+data
