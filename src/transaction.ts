@@ -18,12 +18,29 @@ class UnspentTxOut {
         this.address = address;
         this.amount = amount;
     }
+
+    toString() {
+        return "UnspentTxOut {" +
+            "\n\ttxOutId: " + this.txOutId +
+            "\n\ttxOutIndex: " + this.txOutIndex +
+            "\n\taddress: " + this.address +
+            "\n\tamount: " + this.amount +
+            "\n}";
+    }
 }
 
 class TxIn {
     public txOutId: string;
     public txOutIndex: number;
     public signature: string;
+
+    toString() {
+        return "TxIn {" +
+            "\n\ttxOutId: " + this.txOutId +
+            "\n\ttxOutIndex: " + this.txOutIndex +
+            "\n\tsignature: " + this.signature +
+            "\n}";
+    }
 }
 
 class TxOut {
@@ -34,6 +51,13 @@ class TxOut {
         this.address = address;
         this.amount = amount;
     }
+
+    toString() {
+        return "TxOut {" +
+            "\n\taddress: " + this.address +
+            "\n\tamount: " + this.amount +
+            "\n}";
+    }
 }
 
 class Transaction {
@@ -42,6 +66,13 @@ class Transaction {
 
     public txIns: TxIn[];
     public txOuts: TxOut[];
+
+    toString() {
+        return "Transaction {" +
+            "\n\ttxIns: " + this.txIns +
+            "\n\ttxOuts: " + this.txOuts +
+            "\n}";
+    }
 }
 
 const getTransactionId = (transaction: Transaction): string => {
@@ -57,6 +88,9 @@ const getTransactionId = (transaction: Transaction): string => {
 };
 
 const validateTransaction = (transaction: Transaction, aUnspentTxOuts: UnspentTxOut[]): boolean => {
+    if(!isValidTransactionStructure(transaction)) {
+        return false;
+    }
 
     if (getTransactionId(transaction) !== transaction.id) {
         console.log('invalid tx id: ' + transaction.id);
@@ -236,10 +270,6 @@ const updateUnspentTxOuts = (aTransactions: Transaction[], aUnspentTxOuts: Unspe
 
 const processTransactions = (aTransactions: Transaction[], aUnspentTxOuts: UnspentTxOut[], blockIndex: number) => {
 
-    if (!isValidTransactionsStructure(aTransactions)) {
-        return null;
-    }
-
     if (!validateBlockTransactions(aTransactions, aUnspentTxOuts, blockIndex)) {
         console.log('invalid block transactions');
         return null;
@@ -288,18 +318,12 @@ const isValidTxOutStructure = (txOut: TxOut): boolean => {
     } else if (typeof txOut.amount !== 'number') {
         console.log('invalid amount type in txOut');
         return false;
-    } else if (txOut.amount > 0) {
+    } else if (txOut.amount <= 0) {
         console.log('invalid txOut amount');
         return false;
     } else {
         return true;
     }
-};
-
-const isValidTransactionsStructure = (transactions: Transaction[]): boolean => {
-    return transactions
-        .map(isValidTransactionStructure)
-        .reduce((a, b) => (a && b), true);
 };
 
 const isValidTransactionStructure = (transaction: Transaction) => {
@@ -333,6 +357,7 @@ const isValidTransactionStructure = (transaction: Transaction) => {
 // valid address is a valid ecdsa public key in the 04 + X-coordinate + Y-coordinate format
 const isValidAddress = (address: string): boolean => {
     if (address.length !== 130) {
+        console.log(address);
         console.log('invalid public key length');
         return false;
     } else if (address.match('^[a-fA-F0-9]+$') === null) {
@@ -346,7 +371,7 @@ const isValidAddress = (address: string): boolean => {
 };
 
 export {
-    processTransactions, signTxIn, getTransactionId, isValidAddress,
-    UnspentTxOut, TxIn, TxOut, getCoinbaseTransaction, getPublicKey,
+    processTransactions, signTxIn, getTransactionId, isValidAddress, validateTransaction,
+    UnspentTxOut, TxIn, TxOut, getCoinbaseTransaction, getPublicKey, hasDuplicates,
     Transaction
 }
