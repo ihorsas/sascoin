@@ -3,12 +3,13 @@ import * as express from 'express';
 import * as _ from 'lodash';
 
 import {
-    Block, generateNextBlock, generateNextBlockWithTransaction, generateRawNextBlock, getAccountBalance,
+    Block, generateNextBlock, generateNextBlockWithTransaction, generateRawNextBlock,
     getBlockchain, getMyUnspentTransactionOutputs, getUnspentTxOuts, sendTransaction
-} from './blockchain';import {connectToPeers, getSockets, initP2PServer} from './p2p';
-import {UnspentTxOut} from './transaction';
-import {getTransactionPool} from './transactionPool';
-import {getPublicFromWallet, initWallet} from './wallet';
+} from './blockchain/blockchain';
+import {connectToPeers, getSockets, initP2PServer} from './peer/p2p';
+import {getTransactionPool} from './transaction/transactionPool';
+import {getAccountBalance, getPublicFromWallet, initWallet} from './wallet/wallet';
+import {UnspentTxOut} from "./transaction/unspentTxOut";
 
 const httpPort: number = parseInt(process.env.HTTP_PORT) || 3001;
 const p2pPort: number = parseInt(process.env.P2P_PORT) || 6001;

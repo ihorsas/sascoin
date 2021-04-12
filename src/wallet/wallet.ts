@@ -1,14 +1,23 @@
 import {ec} from 'elliptic';
 import {existsSync, readFileSync, unlinkSync, writeFileSync} from 'fs';
 import * as _ from 'lodash';
-import {getPublicKey, getTransactionId, signTxIn, Transaction, TxIn, TxOut, UnspentTxOut} from './transaction';
+import {getUnspentTxOuts} from "../blockchain/blockchain";
+import {UnspentTxOut} from "../transaction/unspentTxOut";
+import {getTransactionId, signTxIn, Transaction} from "../transaction/transaction";
+import {TxOut} from "../transaction/txOut";
+import {TxIn} from "../transaction/txIn";
 
 const EC = new ec('secp256k1');
-const privateKeyLocation = process.env.PRIVATE_KEY || 'node/wallet/private_key';
+
+const privateKeyLocation = process.env.PRIVATE_KEY || 'node/original_wallet/private_key';
 
 const getPrivateFromWallet = (): string => {
     const buffer = readFileSync(privateKeyLocation, 'utf8');
     return buffer.toString();
+};
+
+const getPublicKey = (aPrivateKey: string): string => {
+    return EC.keyFromPrivate(aPrivateKey, 'hex').getPublic().encode('hex');
 };
 
 const getPublicFromWallet = (): string => {
@@ -31,7 +40,7 @@ const initWallet = () => {
     const newPrivateKey = generatePrivateKey();
 
     writeFileSync(privateKeyLocation, newPrivateKey);
-    console.log('new wallet with private key created to : %s', privateKeyLocation);
+    console.log('new original_wallet with private key created to : %s', privateKeyLocation);
 };
 
 const deleteWallet = () => {
@@ -44,6 +53,10 @@ const getBalance = (address: string, unspentTxOuts: UnspentTxOut[]): number => {
     return _(findUnspentTxOuts(address, unspentTxOuts))
         .map((uTxO: UnspentTxOut) => uTxO.amount)
         .sum();
+};
+
+const getAccountBalance = (): number => {
+    return getBalance(getPublicFromWallet(), getUnspentTxOuts());
 };
 
 const findUnspentTxOuts = (ownerAddress: string, unspentTxOuts: UnspentTxOut[]) => {
@@ -131,5 +144,8 @@ const createTransaction = (receiverAddress: string, amount: number, privateKey: 
     return tx;
 };
 
-export {createTransaction, getPublicFromWallet,
-    getPrivateFromWallet, getBalance, generatePrivateKey, initWallet, deleteWallet, findUnspentTxOuts};
+export {
+    createTransaction, getPublicFromWallet, getPublicKey,
+    getPrivateFromWallet, getBalance, generatePrivateKey,
+    initWallet, deleteWallet, findUnspentTxOuts, getAccountBalance
+};

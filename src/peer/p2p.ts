@@ -3,9 +3,9 @@ import {Server} from 'ws';
 import {
     addBlockToChain, Block, getBlockchain, getLatestBlock, handleReceivedTransaction, isValidBlockStructure,
     replaceChain
-} from './blockchain';
-import {Transaction} from './transaction';
-import {getTransactionPool} from './transactionPool';
+} from '../blockchain/blockchain';
+import {getTransactionPool} from '../transaction/transactionPool';
+import {Transaction} from "../transaction/transaction";
 
 const sockets: WebSocket[] = [];
 
@@ -166,7 +166,8 @@ const handleBlockchainResponse = (receivedBlocks: Block[]) => {
             replaceChain(receivedBlocks);
         }
     } else {
-        console.log('received blockchain is not longer than received blockchain. Do nothing');
+        console.log('received blockchain is not longer than received blockchain. Do nothing\n' +
+            'Our latest index: ' + latestBlockHeld.index, "\ttheir latest index: " + latestBlockReceived.index);
     }
 };
 

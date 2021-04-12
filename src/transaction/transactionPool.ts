@@ -1,10 +1,11 @@
 import * as _ from 'lodash';
-import {Transaction, TxIn, UnspentTxOut, validateTransaction} from './transaction';
-
+import {Transaction, validateTransaction} from "./transaction";
+import {UnspentTxOut} from "./unspentTxOut";
+import {hasTxIn, TxIn} from "./txIn";
 let transactionPool: Transaction[] = [];
 
 const getTransactionPool = () => {
-    return _.cloneDeep(transactionPool);
+    return transactionPool;
 };
 
 const addToTransactionPool = (tx: Transaction, unspentTxOuts: UnspentTxOut[]) => {
@@ -20,12 +21,6 @@ const addToTransactionPool = (tx: Transaction, unspentTxOuts: UnspentTxOut[]) =>
     transactionPool.push(tx);
 };
 
-const hasTxIn = (txIn: TxIn, unspentTxOuts: UnspentTxOut[]): boolean => {
-    const foundTxIn = unspentTxOuts.find((uTxO: UnspentTxOut) => {
-        return uTxO.txOutId === txIn.txOutId && uTxO.txOutIndex === txIn.txOutIndex;
-    });
-    return foundTxIn !== undefined;
-};
 
 const updateTransactionPool = (unspentTxOuts: UnspentTxOut[]) => {
     const invalidTxs = [];
