@@ -1,4 +1,4 @@
-import {Transaction} from "./transaction";
+import {Transaction} from './transaction';
 
 class UnspentTxOut {
     public readonly txOutId: string;
@@ -13,13 +13,13 @@ class UnspentTxOut {
         this.amount = amount;
     }
 
-    toString() {
-        return "UnspentTxOut {" +
-            "\n\ttxOutId: " + this.txOutId +
-            "\n\ttxOutIndex: " + this.txOutIndex +
-            "\n\taddress: " + this.address +
-            "\n\tamount: " + this.amount +
-            "\n}";
+    public toString() {
+        return 'UnspentTxOut {' +
+            '\n\ttxOutId: ' + this.txOutId +
+            '\n\ttxOutIndex: ' + this.txOutIndex +
+            '\n\taddress: ' + this.address +
+            '\n\tamount: ' + this.amount +
+            '\n}';
     }
 }
 
@@ -38,9 +38,9 @@ const updateUnspentTxOuts = (aTransactions: Transaction[], aUnspentTxOuts: Unspe
         .map((t) => t.txIns)
         .reduce((a, b) => a.concat(b), [])
         .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, '', 0));
-    console.log("all tx out: ", aUnspentTxOuts);
-    console.log("new tx out: ", newUnspentTxOuts);
-    console.log("consumed tx outs: ", consumedTxOuts);
+    console.log('all tx out: ', aUnspentTxOuts);
+    console.log('new tx out: ', newUnspentTxOuts);
+    console.log('consumed tx outs: ', consumedTxOuts);
     const resultingUnspentTxOuts = aUnspentTxOuts
         .filter(((uTxO) => !findUnspentTxOut(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts)))
         .concat(newUnspentTxOuts);
@@ -50,4 +50,4 @@ const updateUnspentTxOuts = (aTransactions: Transaction[], aUnspentTxOuts: Unspe
 
 export {
     UnspentTxOut, findUnspentTxOut, updateUnspentTxOuts
-}
+};

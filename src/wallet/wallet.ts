@@ -1,11 +1,11 @@
 import {ec} from 'elliptic';
 import {existsSync, readFileSync, unlinkSync, writeFileSync} from 'fs';
 import * as _ from 'lodash';
-import {getUnspentTxOuts} from "../blockchain/blockchain";
-import {UnspentTxOut} from "../transaction/unspentTxOut";
-import {getTransactionId, signTxIn, Transaction} from "../transaction/transaction";
-import {TxOut} from "../transaction/txOut";
-import {TxIn} from "../transaction/txIn";
+import {getUnspentTxOuts} from '../blockchain/blockchain';
+import {getTransactionId, signTxIn, Transaction} from '../transaction/transaction';
+import {TxIn} from '../transaction/txIn';
+import {TxOut} from '../transaction/txOut';
+import {UnspentTxOut} from '../transaction/unspentTxOut';
 
 const EC = new ec('secp256k1');
 

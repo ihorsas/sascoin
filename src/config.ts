@@ -9,10 +9,10 @@ export default {
             txOutIndex: 0
         }],
         txOuts: [{
-            address: "04378366b65dd8bd3feca94d5c4de502d6d151ccc5f57b9be908bf675d4361bef4c2484fdaa1d1ff2e56299cec60e26fdb2fb1362cb87e47630aeb40d758c90442",
+            address: "04f3bb20dd53c5e390ee3422e3106881e6be745dd51c32ee6bf5a196a34cec5bcd96a9006f477172f521ffeff259d9f37cbc56925909a53d89ea5a193644f5204d",
             amount: 50
         }],
-        id: "a8e22705c24783090101ae2e2537e54744916f0525ffbb101fdac7d7b3fb0d7f"
+        id: "1cfb245f001d01c86c3e883309e5657436ef706b59d3dc3388d7f7dbfb7445d2"
     },
     GENESIS_BLOCK: {
         "index": 0,
@@ -26,10 +26,10 @@ export default {
                 txOutIndex: 0
             }],
             txOuts: [{
-                address: "04378366b65dd8bd3feca94d5c4de502d6d151ccc5f57b9be908bf675d4361bef4c2484fdaa1d1ff2e56299cec60e26fdb2fb1362cb87e47630aeb40d758c90442",
+                address: "04f3bb20dd53c5e390ee3422e3106881e6be745dd51c32ee6bf5a196a34cec5bcd96a9006f477172f521ffeff259d9f37cbc56925909a53d89ea5a193644f5204d",
                 amount: 50
             }],
-            id: "a8e22705c24783090101ae2e2537e54744916f0525ffbb101fdac7d7b3fb0d7f"
+            id: "1cfb245f001d01c86c3e883309e5657436ef706b59d3dc3388d7f7dbfb7445d2"
         }],
         "difficulty": 0,
         "nonce": 0

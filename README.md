@@ -1,3 +1,7 @@
+##### If you are running for the first time, you need to update src/config.ts
+You need to change there txOut address for the coinbase transaction. It needed to have at least 50 coins in our cryptocurrency
+You may need to update that transaction id as well
+
 ```
 npm install
 npm start

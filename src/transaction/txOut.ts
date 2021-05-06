@@ -1,4 +1,4 @@
-import {isValidAddress} from "../util/commonUtil";
+import {isValidAddress} from '../util/commonUtil';
 
 class TxOut {
     public address: string;
@@ -40,4 +40,4 @@ const isValidTxOutStructure = (txOut: TxOut): boolean => {
 
 export {
     TxOut, isValidTxOutStructure
-}
+};

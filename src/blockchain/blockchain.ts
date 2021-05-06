@@ -1,12 +1,12 @@
 import * as CryptoJS from 'crypto-js';
 import * as _ from 'lodash';
+import config from '../config';
 import {broadcastLatest, broadCastTransactionPool} from '../peer/p2p';
 import {getCoinbaseTransaction, processTransactions, Transaction} from '../transaction/transaction';
 import {addToTransactionPool, getTransactionPool, updateTransactionPool} from '../transaction/transactionPool';
+import {UnspentTxOut} from '../transaction/unspentTxOut';
+import {getCurrentTimestamp, hashMatchesDifficulty, isValidAddress} from '../util/commonUtil';
 import {createTransaction, findUnspentTxOuts, getPrivateFromWallet, getPublicFromWallet} from '../wallet/wallet';
-import {UnspentTxOut} from "../transaction/unspentTxOut";
-import {getCurrentTimestamp, hashMatchesDifficulty, isValidAddress} from "../util/commonUtil";
-import config from '../config';
 
 class Block {
 
@@ -29,13 +29,13 @@ class Block {
         this.nonce = nonce;
     }
 
-    toString() {
-        return "Block {\n\tindex: " + this.index + "\n\thash: " + this.hash +
-            "\n\tpreviousHash: " + this.previousHash +
-            "\n\ttimestamp: " + this.timestamp +
-            "\n\tdata: " + this.data +
-            "\n\tdifficulty: " + this.difficulty +
-            "\n\tnonce: " + this.nonce + "\n}";
+    public toString() {
+        return 'Block {\n\tindex: ' + this.index + '\n\thash: ' + this.hash +
+            '\n\tpreviousHash: ' + this.previousHash +
+            '\n\ttimestamp: ' + this.timestamp +
+            '\n\tdata: ' + this.data +
+            '\n\tdifficulty: ' + this.difficulty +
+            '\n\tnonce: ' + this.nonce + '\n}';
     }
 }
 
@@ -79,7 +79,7 @@ const getAdjustedDifficulty = (latestBlock: Block, aBlockchain: Block[]) => {
 };
 
 const generateRawNextBlock = (blockData: Transaction[]) => {
-    console.log("trying to generate new block from data: " + blockData);
+    console.log('trying to generate new block from data: ' + blockData);
     const previousBlock: Block = getLatestBlock();
     const difficulty: number = getDifficulty(getBlockchain());
     const nextIndex: number = previousBlock.index + 1;
@@ -99,8 +99,9 @@ const getMyUnspentTransactionOutputs = () => {
 };
 
 const generateNextBlock = () => {
-    if(getTransactionPool().length === 0)
-        throw new Error("No transactions to mine");
+    if (getTransactionPool().length === 0) {
+        throw new Error('No transactions to mine');
+    }
     const coinbaseTx: Transaction = getCoinbaseTransaction(getPublicFromWallet(), getLatestBlock().index + 1);
     const blockData: Transaction[] = [coinbaseTx].concat(getTransactionPool());
     return generateRawNextBlock(blockData);
@@ -118,7 +119,6 @@ const generateNextBlockWithTransaction = (receiverAddress: string, amount: numbe
     const blockData: Transaction[] = [coinbaseTx, tx];
     return generateRawNextBlock(blockData);
 };
-
 
 const findBlock = (index: number, previousHash: string, timestamp: number, data: Transaction[], difficulty: number): Block => {
     let nonce = 0;
@@ -144,7 +144,6 @@ const calculateHashForBlock = (block: Block): string =>
 const calculateHash = (index: number, previousHash: string, timestamp: number, data: Transaction[],
                        difficulty: number, nonce: number): string =>
     CryptoJS.SHA256(index + previousHash + timestamp + data + difficulty + nonce).toString();
-
 
 const isValidBlockStructure = (block: Block): boolean => {
     return typeof block.index === 'number'
@@ -201,12 +200,11 @@ const hasValidHash = (block: Block): boolean => {
 
 const hashMatchesBlockContent = (block: Block): boolean => {
     const blockHash: string = calculateHashForBlock(block);
-    console.log("Checking hash...\n" +
-        "Should be: " + blockHash +
-        "\nIs: " + block.hash)
+    console.log('Checking hash...\n' +
+        'Should be: ' + blockHash +
+        '\nIs: ' + block.hash);
     return blockHash == block.hash;
 };
-
 
 /*
     Checks if the given blockchain is valid. Return the unspent txOuts if the chain is valid
@@ -242,9 +240,8 @@ const isValidChain = (blockchainToValidate: Block[]): UnspentTxOut[] => {
     return aUnspentTxOuts;
 };
 
-
 const addBlockToChain = (newBlock: Block): boolean => {
-    console.log("trying to add new block: " + newBlock);
+    console.log('trying to add new block: ' + newBlock);
     if (isValidNewBlock(newBlock, getLatestBlock())) {
         const retVal: UnspentTxOut[] = processTransactions(newBlock.data, getUnspentTxOuts(), newBlock.index);
         if (retVal === null) {

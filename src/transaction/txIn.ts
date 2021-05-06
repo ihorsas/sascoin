@@ -1,7 +1,7 @@
-import * as _ from "lodash";
 import * as ecdsa from 'elliptic';
-import {findUnspentTxOut, UnspentTxOut} from "./unspentTxOut";
-import {Transaction} from "./transaction";
+import * as _ from 'lodash';
+import {Transaction} from './transaction';
+import {findUnspentTxOut, UnspentTxOut} from './unspentTxOut';
 
 const ec = new ecdsa.ec('secp256k1');
 
@@ -23,7 +23,6 @@ const getTxInAmount = (txIn: TxIn, aUnspentTxOuts: UnspentTxOut[]): number => {
     return findUnspentTxOut(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts).amount;
 };
 
-
 const hasDuplicates = (txIns: TxIn[]): boolean => {
     const groups = _.countBy(txIns, (txIn: TxIn) => txIn.txOutId + txIn.txOutIndex);
     return _(groups)
@@ -44,7 +43,6 @@ const hasTxIn = (txIn: TxIn, unspentTxOuts: UnspentTxOut[]): boolean => {
     });
     return foundTxIn !== undefined;
 };
-
 
 const validateTxIn = (txIn: TxIn, transaction: Transaction, aUnspentTxOuts: UnspentTxOut[]): boolean => {
     const referencedUTxOut: UnspentTxOut =
@@ -84,4 +82,4 @@ const isValidTxInStructure = (txIn: TxIn): boolean => {
 
 export {
     TxIn, hasDuplicates, hasTxIn, validateTxIn, getTxInAmount, isValidTxInStructure
-}
+};

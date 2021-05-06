@@ -8,8 +8,8 @@ import {
 } from './blockchain/blockchain';
 import {connectToPeers, getSockets, initP2PServer} from './peer/p2p';
 import {getTransactionPool} from './transaction/transactionPool';
+import {UnspentTxOut} from './transaction/unspentTxOut';
 import {getAccountBalance, getPublicFromWallet, initWallet} from './wallet/wallet';
-import {UnspentTxOut} from "./transaction/unspentTxOut";
 
 const httpPort: number = parseInt(process.env.HTTP_PORT) || 3001;
 const p2pPort: number = parseInt(process.env.P2P_PORT) || 6001;
@@ -131,7 +131,6 @@ const initHttpServer = ( myHttpPort: number ) => {
         res.send({'msg' : 'stopping server'});
         process.exit();
     });
-
 
     app.listen(myHttpPort, () => {
         console.log('Listening http on port: ' + myHttpPort);

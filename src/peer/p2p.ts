@@ -4,8 +4,8 @@ import {
     addBlockToChain, Block, getBlockchain, getLatestBlock, handleReceivedTransaction, isValidBlockStructure,
     replaceChain
 } from '../blockchain/blockchain';
+import {Transaction} from '../transaction/transaction';
 import {getTransactionPool} from '../transaction/transactionPool';
-import {Transaction} from "../transaction/transaction";
 
 const sockets: WebSocket[] = [];
 
@@ -167,7 +167,7 @@ const handleBlockchainResponse = (receivedBlocks: Block[]) => {
         }
     } else {
         console.log('received blockchain is not longer than received blockchain. Do nothing\n' +
-            'Our latest index: ' + latestBlockHeld.index, "\ttheir latest index: " + latestBlockReceived.index);
+            'Our latest index: ' + latestBlockHeld.index, '\ttheir latest index: ' + latestBlockReceived.index);
     }
 };
 

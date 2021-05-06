@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import {Transaction, validateTransaction} from "./transaction";
-import {UnspentTxOut} from "./unspentTxOut";
-import {hasTxIn, TxIn} from "./txIn";
+import {Transaction, validateTransaction} from './transaction';
+import {hasTxIn, TxIn} from './txIn';
+import {UnspentTxOut} from './unspentTxOut';
 let transactionPool: Transaction[] = [];
 
 const getTransactionPool = () => {
@@ -20,7 +20,6 @@ const addToTransactionPool = (tx: Transaction, unspentTxOuts: UnspentTxOut[]) =>
     console.log('adding to txPool: %s', JSON.stringify(tx));
     transactionPool.push(tx);
 };
-
 
 const updateTransactionPool = (unspentTxOuts: UnspentTxOut[]) => {
     const invalidTxs = [];

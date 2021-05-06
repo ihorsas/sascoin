@@ -126,7 +126,7 @@ const validateTransactions = (aTransactions: Transaction[], aUnspentTxOuts: Unsp
         return false;
     }
 
-    //check for duplicate txIns. Each txIn can be included only once
+    // check for duplicate txIns. Each txIn can be included only once
     const txIns: TxIn[] = _(aTransactions)
         .map((tx) => tx.txIns)
         .flatten()
